@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { PortfolioProject } from '../portfolio/types'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -34,15 +33,20 @@ export default function PortfolioImageSlider({ project }: PortfolioImageSliderPr
         >
           {project.images.map((image, index) => (
             <SwiperSlide key={index}>
-              <motion.div transition={{ duration: 0.6, ease: 'easeOut' }} className="h-full w-full">
+              <div className="h-full w-full">
+                {/* The photograph is the product, so it is what responds to a
+                    hover — a slow 4% push in, clipped by the slider's
+                    overflow. 700ms is deliberately slower than the card's own
+                    300ms border and shadow, so the frame reacts first and the
+                    image follows it. */}
                 <Image
                   src={image?.src}
                   alt={image?.alt || 'Portfolio Image'}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   loading="lazy"
                 />
-              </motion.div>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

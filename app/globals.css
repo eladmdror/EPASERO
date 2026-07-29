@@ -61,6 +61,79 @@ button {
   transition: all 0.3s ease;
 }
 
+/* --- Motion ------------------------------------------------------------- */
+
+/* The hero photograph drifts almost imperceptibly, so the opening frame reads
+   as a space you are standing in rather than a still. 24s and 4% is below the
+   threshold where the eye tracks it as movement — it is atmosphere, not an
+   effect. Runs once and holds, so it never loops distractingly. */
+@keyframes hero-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.04);
+  }
+}
+
+.hero-drift {
+  animation: hero-drift 24s ease-out forwards;
+}
+
+/* The signature detail: the hairline that strikes out from a section label,
+   the way a dimension line is struck across an architectural drawing.
+
+   Deliberately CSS rather than a scroll observer. A decorative rule must fail
+   *visible* — an observer that never fires would leave it permanently invisible,
+   which is the same defect that once held the whole portfolio grid at opacity 0.
+   Here, where `animation-timeline: view()` is supported the rule draws itself as
+   the section arrives; where it is not, the declaration is ignored and the
+   animation simply runs once on load. Both paths end with the rule drawn.
+
+   scaleX is compositor-only, so this costs nothing to animate. */
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.dimension-rule {
+  transform-origin: left;
+  animation: rule-draw 0.6s ease-out both;
+  animation-timeline: view();
+  animation-range: entry 15% cover 25%;
+}
+
+.dimension-rule--from-right {
+  transform-origin: right;
+}
+
+/* Anyone who has asked their OS for less motion gets none of it. This covers
+   CSS animation and transition; framer-motion is handled separately by the
+   <MotionConfig reducedMotion="user"> wrapper in app/layout.tsx, which drops
+   transform and layout animation while keeping plain opacity — so content still
+   appears, it simply does not travel. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-drift {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* --- Type primitives ---------------------------------------------------- */
 
 /* The small letter-spaced Courier kicker above a heading, e.g. "ABOUT US" */

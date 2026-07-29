@@ -4,6 +4,8 @@ import './globals.css'
 import Header from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
 import FloatingWhatsApp from '@/components/whatsapp/FloatingWhatsApp'
+import BackToTop from '@/components/back-to-top/BackToTop'
+import MotionProvider from '@/components/motion/MotionProvider'
 import LeadCaptureModal from '@/components/lead-capture/LeadCaptureModal'
 
 const cormorant = Cormorant_Garamond({
@@ -35,11 +37,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cormorant.variable} antialiased`}>
-        <Header />
-        {children}
-        <Footer />
-        <FloatingWhatsApp />
-        <LeadCaptureModal />
+        <MotionProvider>
+          <Header />
+          {children}
+          <Footer />
+          <FloatingWhatsApp />
+          <BackToTop />
+          <LeadCaptureModal />
+        </MotionProvider>
       </body>
     </html>
   )

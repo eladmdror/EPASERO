@@ -67,7 +67,7 @@ const Hero = () => {
           priority
           quality={90}
           sizes="100vw"
-          className="object-cover object-left md:object-center"
+          className="hero-drift object-cover object-left md:object-center"
         />
       </motion.div>
 
