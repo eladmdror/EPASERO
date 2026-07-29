@@ -23,6 +23,22 @@ existing image; swapping them is a one-line `src` change in the file listed.
   it works. **Until then the popup collects a lead and then 404s on the download.**
 - **`Updated List of Projects`** — which portfolio projects to add and remove. All 32
   existing projects are still live in `data/data.ts`.
+
+- **Per-project copy in `data/data.ts`.** An audit of the 32 entries found fields that
+  were never rewritten from the template. These are **hidden on the site rather than
+  published**, because showing them would put false statements on a live business site:
+
+  | Field | State | Where |
+  |---|---|---|
+  | `features` | **All 32 projects share one identical list.** The Veterinary Clinic and the Villa Landscape both claim "4 private bedrooms with large windows and natural light." | Hidden by `lib/content.ts` |
+  | `price` | **All 32 are `$8,500,000`.** | Never rendered — `PropertyHero` |
+  | `amenitiesColumns` | 14 distinct blocks across 32 projects, so most are shared between unrelated projects; one still quotes "Maintenance fee: $6,500 MXN" — Mexican pesos, on a Dubai site. | Never rendered — `PropertyDetails` |
+
+  `features` is wired to **self-enable**: `lib/content.ts` hides any list that two or more
+  projects share. Write genuine features for one project and they appear on that project's
+  page immediately, with no code change. The other projects stay hidden until theirs are
+  written. `price` and `amenitiesColumns` have no UI yet — they need the copy fixed first,
+  then a decision on whether to show them at all.
 - **`Frequently Asked Questions`** — the FAQ answers. Questions are transcribed into
   `data/faqs.ts` with empty answers; the page hides unanswered questions, so `/faqs`
   currently shows a holding message. Answers must be written by Epasero — these are
@@ -61,6 +77,17 @@ Copy `.env.example` to `.env.local` and fill in:
   *style*. Emitting a real `<h1>` per section would put six of them on the homepage and
   break the heading outline for search engines. Each page has exactly one `<h1>` (the hero);
   section labels use the `.h1-label` class and look identical.
+
+- **Social icons leave the nav between 768px and 1023px.** Spec §4.1 asks for the hamburger
+  below 768px, so the links must be visible at 768. Measured, the full bar needs 820px
+  (logo 112 + links 294 + icons 112 + button 134 + padding and gaps). Dropping only the
+  icons in that band brings it to 676px and fits. §4.1 explicitly permits moving the icons
+  ("feel free to play around and see the best placement"); they return at 1024px, sit in the
+  hamburger below 768px, and are in the footer on every page.
+
+- **"Design & Build Journal" is absent from the footer links.** §4.10 lists it, but the
+  journal page is deferred, and a footer link to a 404 is worse than no link. Add it to
+  `FOOTER_LINKS` in `lib/site.ts` the day the page ships.
 
 ## Popup safety guard
 

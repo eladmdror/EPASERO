@@ -18,7 +18,15 @@ const PortfolioPreview = () => {
           body="A curated body of work across Dubai, encompassing private residences and commercial environments. Each project is conceived as a distinct architectural expression, shaped through context, materiality, and a disciplined design language."
         />
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/*
+          `grid-cols-1` is load-bearing, not decoration. Without an explicit
+          column at the base breakpoint the cards land in an *implicit* `auto`
+          column, which has no upper bound — the Swiper inside each card then
+          measures that unbounded width and sizes its slides to the browser's
+          maximum CSS length (2^25 px), blowing the whole page out sideways on
+          every viewport below `md`.
+        */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {featured.map(project => (
             <PortfolioCard key={project.id} project={project} />
           ))}

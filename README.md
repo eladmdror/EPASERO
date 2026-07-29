@@ -13,7 +13,7 @@ architecture, interior design, and fit-out studio.
 | Styling | Tailwind CSS v4 |
 | Motion | Framer Motion, Lottie |
 | Carousels | Swiper |
-| Output | Static export (`output: 'export'` → `out/`) |
+| Output | Server-rendered Next build (the API routes need a server) |
 
 ## Getting started
 
@@ -27,7 +27,7 @@ npm run dev      # http://localhost:3000
 | Command | Description |
 |---|---|
 | `npm run dev` | Dev server with hot reload |
-| `npm run build` | Production build → static export in `out/` |
+| `npm run build` | Production build |
 | `npm start` | Serve the production build |
 | `npm run lint` | ESLint |
 
@@ -60,12 +60,20 @@ image at a different size, the source is there. Keep `public/` lean — it ships
 
 ## Deployment
 
-The site builds to a fully static export, so it can be hosted on any static host
-(Vercel, Netlify, Cloudflare Pages, S3, nginx).
+The site needs a Node/serverless host — Vercel is the assumed target. It is **not** a
+static export: `/api/contact`, `/api/lead` and `/api/reviews` run server-side so that the
+Resend, HubSpot and Google Places keys never reach the browser. Dropping back to
+`output: 'export'` would silently break all three.
+
+Set the environment variables from [`.env.example`](.env.example) on the host before
+deploying, or the contact form will accept submissions and fail to send them.
 
 ```bash
-npm run build   # outputs to out/
+npm run build
 ```
+
+A stale `out/` directory from the old static-export setup may still exist locally. It is
+git-ignored and is not what gets deployed — delete it if it confuses you.
 
 ## Contact channel
 

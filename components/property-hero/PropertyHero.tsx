@@ -18,6 +18,12 @@ interface PropertyHeroProps {
   category?: string
   title: string
   location: string
+  /**
+   * Present in the data but deliberately never rendered: every one of the 32
+   * projects carries the identical `$8,500,000`, a leftover from the template.
+   * Publishing it would put the same fictional price on a veterinary clinic and
+   * a villa alike. See TODO.md.
+   */
   price: string
   area: string
   images: PropertyImage[]
@@ -27,7 +33,6 @@ export default function PropertyHero({
   category = 'Fit Out Projects',
   title,
   location,
-  price,
   area,
   images,
 }: PropertyHeroProps) {

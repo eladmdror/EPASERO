@@ -59,8 +59,21 @@ const Header = () => {
           />
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 lg:flex">
+        {/*
+          Desktop nav — shown from 768px, which is what spec §4.1 asks for
+          ("on screens below 768px, collapse nav links into a hamburger").
+
+          Measured at 1024px: logo 112 + links 294 + socials 112 + button 134,
+          plus 80px row padding and the gaps, needs 820px. That does not fit at
+          768. Dropping only the social icons in the 768–1023 band brings it to
+          676px and fits with room to spare, so the links — the part §4.1 says
+          must never hide behind a hamburger on desktop — stay visible.
+
+          §4.1 explicitly allows this ("if this placement doesn't look good,
+          feel free to play around"). The icons return at 1024px, are in the
+          hamburger below 768px, and are in the footer on every page.
+        */}
+        <nav className="hidden items-center gap-8 md:flex">
           <ul className="flex items-center gap-8">
             {NAV_LINKS.map(({ label, href }) => (
               <li key={label}>
@@ -74,7 +87,7 @@ const Header = () => {
             ))}
           </ul>
 
-          <SocialIcons />
+          <SocialIcons className="hidden lg:flex" />
 
           <Link
             href="/contact"
@@ -85,7 +98,7 @@ const Header = () => {
         </nav>
 
         {/* Mobile: keep the Let's Connect CTA outside the hamburger. */}
-        <div className="flex items-center gap-3 lg:hidden">
+        <div className="flex items-center gap-3 md:hidden">
           <Link
             href="/contact"
             className="rounded-brand bg-brand-brown text-brand-white px-4 py-2 text-xs font-semibold"
@@ -107,7 +120,7 @@ const Header = () => {
       {menuOpen ? (
         <div
           className={cn(
-            'bg-brand-white fixed inset-x-0 bottom-0 z-[999] flex flex-col gap-8 px-6 py-10 transition-all duration-300 lg:hidden',
+            'bg-brand-white fixed inset-x-0 bottom-0 z-[999] flex flex-col gap-8 px-6 py-10 transition-all duration-300 md:hidden',
             // Sit directly beneath the bar, whichever height it currently is.
             compressed ? 'top-[72px]' : 'top-24',
           )}

@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { detailIcons } from '@/components/property-details/icons'
 import Image from 'next/image'
 import { WHATSAPP_NUMBER, WHATSAPP_MESSAGE } from '@/components/header/config'
+import { isProjectSpecific } from '@/lib/content'
 
 interface PropertyDetailsProps {
   description: string
@@ -16,19 +17,33 @@ interface PropertyDetailsProps {
     value: string
   }[]
   contactInfo?: string
+  /**
+   * Present in the data but deliberately not rendered. The amenities blocks are
+   * shared across unrelated projects and one still quotes a maintenance fee in
+   * Mexican pesos, left over from the template. See TODO.md — they need
+   * rewriting per project before they can be shown.
+   */
   amenitiesTitle?: string
-  amenitiesColumns: {
+  amenitiesColumns?: {
     left: string[]
     right: string[]
   }
 }
 
-function arrowVector() {
+function CheckMark() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      className="mt-1 shrink-0"
+    >
       <path
         d="M13.3332 4L5.99984 11.3333L2.6665 8"
-        stroke="#09090B"
+        stroke="#9C5B4B"
         strokeWidth="1.33333"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -43,9 +58,9 @@ export default function PropertyDetails({
   specifications,
   materials,
   contactInfo,
-  amenitiesTitle = 'Community & Services',
-  amenitiesColumns,
 }: PropertyDetailsProps) {
+  // Hidden while the list is still the template's shared boilerplate.
+  const showFeatures = isProjectSpecific(features)
   const handleWhatsAppClick = () => {
     const encodedMessage = encodeURIComponent(WHATSAPP_MESSAGE)
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodedMessage}`
@@ -64,7 +79,6 @@ export default function PropertyDetails({
 
               <div className="flex w-full flex-col">
                 {specifications.map((spec, index) => {
-                  if (index > 1) return null
                   return (
                     <div
                       key={index}
@@ -91,6 +105,20 @@ export default function PropertyDetails({
                   )
                 })}
               </div>
+
+              {showFeatures ? (
+                <div className="flex flex-col gap-4">
+                  <h2 className="h2-display text-brand-black !text-[24px]">Project Highlights</h2>
+                  <ul className="flex flex-col gap-3">
+                    {features.map(feature => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <CheckMark />
+                        <span className="text-[15px] leading-6 text-zinc-950">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
               <p className="text-base leading-[26px] tracking-[0.4px] text-zinc-950">{materials}</p>
 
@@ -121,7 +149,7 @@ export default function PropertyDetails({
 
                 <div className="flex flex-col items-end gap-1">
                   <p className="text-[10px] leading-[18px] tracking-[1.2px] text-zinc-950 uppercase sm:text-xs">
-                    Epasero contracing
+                    Epasero Contracting
                   </p>
                   <p className="text-[10px] leading-[18px] tracking-[1.2px] text-zinc-950 uppercase opacity-50 sm:text-xs">
                     design & Building

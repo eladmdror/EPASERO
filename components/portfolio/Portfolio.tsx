@@ -28,18 +28,18 @@ export default function Portfolio() {
   const endIndex = startIndex + PROJECTS_PER_PAGE
   const currentProjects = filteredProjects.slice(startIndex, endIndex)
 
-  const [isInitialMount, setInitialMount] = useState(true)
+  // Scroll back to the top of the grid when the page changes — but not on the
+  // first render, which would yank a visitor arriving at /portfolio#something.
+  // A ref, not state: this is a "have I run before" flag, and putting it in
+  // state forced an extra render and an eslint suppression to go with it.
+  const isInitialMount = useRef(true)
 
   useEffect(() => {
-    if (isInitialMount) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setInitialMount(false)
-    } else {
-      portfolioTopRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
     }
+    portfolioTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [currentPage])
 
   const handleCategoryChange = (category: PortfolioCategory) => {
@@ -115,25 +115,32 @@ export default function Portfolio() {
           </div>
         </div>
 
+        {/*
+          Three entrance animations used to be stacked here: this wrapper, a
+          per-card wrapper with a 0.1s-per-index stagger, and the card's own
+          scroll fade. The wrapper was the dangerous one — it held the entire
+          grid at `opacity: 0` as a single block, so if that one animation
+          failed to complete the whole portfolio was an empty 800px void with
+          only the pagination showing.
+
+          The card's own fade (spec §1.3: opacity 0→1, y 20→0, 0.6s ease) is
+          kept and is now the only entrance animation, so a card can never be
+          hidden by anything other than its own observer firing.
+
+          `initial={false}` means the first paint is the settled state; the
+          fade is reserved for genuine category/page changes.
+        */}
         <div className="min-h-[800px]">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={`${activeCategory}-${currentPage}`}
-              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
               className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              {currentProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                >
-                  <PortfolioCard project={project} />
-                </motion.div>
+              {currentProjects.map(project => (
+                <PortfolioCard key={project.id} project={project} />
               ))}
             </motion.div>
           </AnimatePresence>
