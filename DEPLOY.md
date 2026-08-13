@@ -16,28 +16,44 @@ it can be pointed back in minutes. See [Rollback](#rollback).
 
 ---
 
-## Step 1 — Create the Vercel project
+## Step 1 — ✅ Already done
 
-1. Go to **vercel.com** and click **Sign Up**.
-2. Choose **Continue with GitHub** and sign in as `eladmdror`. Pick the **Hobby**
-   (free) plan when asked.
-3. On the dashboard click **Add New… → Project**.
-4. Find **EPASERO** in the list and click **Import**.
-5. Change nothing on the settings screen. Vercel recognises Next.js and fills it
-   in correctly by itself.
-6. Click **Deploy** and wait about two minutes.
+The Vercel project **`epasero-contracting-app`** exists, is connected to
+`eladmdror/EPASERO`, and deploys automatically on every push to `main`.
 
-You now have a working site on a temporary address like
-`epasero-abc123.vercel.app`. **Nothing public has changed** —
-`epaserocontracting.com` still shows the old site.
+**Live now at → https://epasero-contracting-app.vercel.app**
+
+Nothing public has changed: `epaserocontracting.com` still serves the old S3
+site until Step 4.
+
+> **Why nothing was live before 29 Jul 2026.** Every deployment had been failing
+> with *"Vulnerable version of Next.js detected"* — Vercel refuses to release a
+> build on a Next version with an open advisory. The app compiled fine each time
+> and produced all 44 routes; Vercel blocked the release at the last step, so the
+> failure was invisible unless you opened the build log.
+>
+> `next` 16.0.3 fell inside the advisory range covering a critical RCE in the
+> React flight protocol, Server Actions source exposure, CSRF bypasses, cache
+> poisoning, XSS and several DoS vectors. Upgrading to 16.3.0 (plus
+> `npm audit fix` for a nanoid advisory) cleared it: **21 vulnerabilities → 0**,
+> and the first deployment afterwards succeeded.
+>
+> Keep `next` current. If deployments start failing again with no obvious code
+> error, check the build log for this same banner before anything else.
 
 ## Step 2 — Add the keys (do not skip)
 
 This is the step that silently breaks things if missed. The `.env.local` file on
 your Mac is deliberately never uploaded, so Vercel does not have your keys yet.
 
-Without them the contact form still *looks* like it works — it shows the success
-message — but nothing is sent and the enquiry is lost.
+Verified against the live deployment: with no key, `POST /api/contact` returns a
+500 and the visitor sees the inline error *"Something went wrong. Please try
+again or contact us directly at contact@epaserocontracting.com"*. So enquiries
+are **not** silently swallowed — the form fails visibly and still hands over the
+email address. It is nonetheless unusable until the key is set.
+
+`/api/reviews` degrades cleanly on its own: it returns `{"reviews":[]}` and the
+Client Stories section hides itself.
 
 In the project, go to **Settings → Environment Variables** and add:
 
@@ -72,17 +88,27 @@ Send me the link at this point and I will go through every page properly.
 
 Only once Step 3 is genuinely clean.
 
-1. In Vercel: **Settings → Domains → Add**, enter `epaserocontracting.com`, and
-   add `www.epaserocontracting.com` too.
-2. Vercel shows you the DNS record it wants. Keep that page open.
-3. In **AWS Route 53** (the domain's nameservers are already there —
-   `ns-1854.awsdns-39.co.uk` and three others), open the hosted zone for
-   `epaserocontracting.com`.
-4. Edit the existing record that currently points at CloudFront and change it to
-   the value Vercel gave you.
-5. Wait. It is usually minutes, but can take up to an hour to spread.
+Both domains are **already added in Vercel** and currently read *Invalid
+Configuration* — which is correct and expected. It means Vercel is waiting for
+DNS. Nothing is live until you make the change below.
 
-Vercel issues the HTTPS certificate automatically once it sees the record.
+**The only remaining step is in AWS Route 53.** Open the hosted zone for
+`epaserocontracting.com` (its nameservers are already there —
+`ns-1854.awsdns-39.co.uk` and three others) and set:
+
+| Record | Type | Name | Value |
+|---|---|---|---|
+| apex | `A` | `@` (blank / root) | `216.198.79.1` |
+| www | `CNAME` | `www` | `d9ce8777549b29e8.vercel-dns-017.com.` |
+
+Replace the existing records that point at CloudFront. Note the trailing dot on
+the CNAME value.
+
+Then, back in Vercel → **Domains**, press **Refresh** on each. They should flip
+to *Valid Configuration*. HTTPS certificates are issued automatically once the
+records resolve — no action needed.
+
+Propagation is usually minutes, occasionally up to an hour.
 
 ## Rollback
 
