@@ -18,11 +18,28 @@ existing image; swapping them is a one-line `src` change in the file listed.
 
 ## Missing content
 
-- **`Interior Design Guide` (PDF)** — the asset the lead-capture popup gives away. The
-  download is wired to `/guides/interior-design-guide-2026.pdf`; drop the file there and
-  it works. **Until then the popup collects a lead and then 404s on the download.**
-- **`Updated List of Projects`** — which portfolio projects to add and remove. All 32
-  existing projects are still live in `data/data.ts`.
+- ~~**`Interior Design Guide` (PDF)**~~ — **received 2026-07-29** and installed at
+  `public/guides/interior-design-guide-2026.pdf` (8 pages, 200 KB). The lead-capture popup
+  enabled itself automatically as designed — verified opening after its delay with the
+  showcase images cross-fading. No code change was needed.
+- ~~**`Updated List of Projects`**~~ — **received 2026-07-29** ("Website Portfolio Update").
+  It listed removals only, no additions. Three projects removed from `data/data.ts`,
+  matched by title **and** location because two shared the name "Veterinary Clinic":
+
+  | Removed | Location | Category |
+  |---|---|---|
+  | Villa Landscape | Jumeirah Golf Estates | Fit Out |
+  | Veterinary Clinic | Jumeirah Lake Towers | Design |
+  | Veterinary Clinic | Arjan | Design |
+
+  Counts went 32 → 29 (Design 7→5, Fit Out 7→6, Styling 18 unchanged), and the build
+  dropped from 44 to 41 routes.
+
+  Two notes. Their three URLs now return 404 — acceptable because the site only went live
+  today so they are very unlikely to be indexed, but if any turn up in Search Console,
+  redirect them to `/portfolio/`. And their images are still in `public/portfolio/4`, `/6`
+  and `/7`; left in place deliberately so the removal is reversible. Delete those folders
+  once the decision is final.
 
 - **Per-project copy in `data/data.ts`.** An audit of the 32 entries found fields that
   were never rewritten from the template. These are **hidden on the site rather than
