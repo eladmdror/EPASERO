@@ -59,10 +59,23 @@ In the project, go to **Settings → Environment Variables** and add:
 
 | Name | Value | Needed for |
 |---|---|---|
-| `RESEND_API_KEY` | from resend.com | **The contact form. Required.** |
-| `CONTACT_FROM` | `website@epaserocontracting.com` | **Required.** |
+| `RESEND_API_KEY` | from resend.com → API Keys | **The contact form. Required.** |
+| `CONTACT_FROM` | `website@epaseroadmin.com` | **Required.** |
 | `GOOGLE_PLACES_API_KEY` | from Google Cloud | Reviews only — optional |
 | `GOOGLE_PLACE_ID` | from Google's Place ID finder | Reviews only — optional |
+
+> **`CONTACT_FROM` must be on a domain verified in Resend.** With an unverified
+> sender, Resend refuses to deliver to anyone except the account owner and the
+> form returns 502 — which is exactly how it failed the first time this was set
+> up. `epaseroadmin.com` is already verified on the Epasero account, so
+> `website@epaseroadmin.com` works with no DNS changes at all.
+>
+> Confirmed by a live send to contact@epaserocontracting.com. The enquirer's own
+> address is set as `replyTo`, so replying from the inbox reaches the customer
+> directly regardless of which domain sent the notification.
+>
+> Switching this to `@epaserocontracting.com` requires verifying that domain in
+> Resend first (Domains → Add Domain → add the records it gives you).
 
 Set each one for **Production, Preview and Development** (there are three
 tick-boxes).
