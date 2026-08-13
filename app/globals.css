@@ -61,6 +61,27 @@ button {
   transition: all 0.3s ease;
 }
 
+/* Keyboard focus. The browser's default ring was the only indicator on the
+   whole site — legible, but grey-blue and off-brand. This replaces it with the
+   brand brown at a consistent offset.
+
+   `:focus-visible` rather than `:focus`, so a mouse click never leaves a ring
+   behind; keyboard and assistive-tech users still get one everywhere.
+
+   `transition: none` matters: the `all 0.3s` above would otherwise fade the
+   outline in, which reads as lag when tabbing quickly through a page. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-brand-brown);
+  outline-offset: 3px;
+  border-radius: 2px;
+  transition: none;
+}
+
 /* --- Motion ------------------------------------------------------------- */
 
 /* The hero photograph drifts almost imperceptibly, so the opening frame reads

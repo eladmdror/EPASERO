@@ -61,13 +61,19 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
 
   return (
     <div className="flex items-center justify-center gap-[6px]">
+      {/* These carry only an SVG, so without aria-label a screen reader
+          announces them as an unlabelled "button". Sized 44×44 to meet the
+          minimum touch target (WCAG 2.5.5) — the visible border stays 32px via
+          the inner span so the design is unchanged. */}
       <motion.button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-[10px] border border-[#7c6858] transition-opacity ${
+        aria-label="Previous page"
+        className={`flex h-11 w-11 cursor-pointer items-center justify-center transition-opacity ${
           currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'opacity-100'
         }`}
       >
+        <span className="flex h-8 w-8 items-center justify-center rounded-[10px] border border-[#7c6858]">
         <svg
           width="8"
           height="8"
@@ -84,6 +90,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
             strokeLinejoin="round"
           />
         </svg>
+        </span>
       </motion.button>
 
       {pageNumbers.map((page, index) => {
@@ -101,7 +108,9 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
           <motion.button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`h-8 cursor-pointer rounded-[4px] px-3 py-2 text-sm transition-all ${
+            aria-label={`Page ${page}`}
+            aria-current={isActive ? 'page' : undefined}
+            className={`flex h-11 min-w-11 cursor-pointer items-center justify-center rounded-[4px] px-2 text-sm transition-all ${
               isActive
                 ? 'cursor-default font-medium text-black'
                 : 'cursor-pointer text-[#313131] opacity-50 hover:opacity-100'
@@ -115,12 +124,14 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       <motion.button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-[10px] border border-[#7c6858] transition-opacity ${
+        aria-label="Next page"
+        className={`flex h-11 w-11 cursor-pointer items-center justify-center transition-opacity ${
           currentPage === totalPages
             ? 'cursor-not-allowed opacity-50'
             : 'cursor-pointer opacity-100 hover:opacity-70'
         }`}
       >
+        <span className="flex h-8 w-8 items-center justify-center rounded-[10px] border border-[#7c6858]">
         <svg
           width="8"
           height="8"
@@ -137,6 +148,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
             strokeLinejoin="round"
           />
         </svg>
+        </span>
       </motion.button>
     </div>
   )

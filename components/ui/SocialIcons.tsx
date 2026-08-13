@@ -23,7 +23,10 @@ type Props = {
 }
 
 const SocialIcons = ({ invert = false, size = 16, className }: Props) => (
-  <ul className={cn('flex items-center gap-4', className)}>
+  // Negative margins keep the row visually the same width as before while each
+  // link gets a real 44×44 touch target — the glyphs alone were 16–18px, well
+  // under the WCAG 2.5.5 minimum, and they sit in both the header and footer.
+  <ul className={cn('-mx-2 flex items-center', className)}>
     {SOCIAL_LINKS.map(({ label, href }) => {
       const Icon = ICONS[label]
       return (
@@ -34,7 +37,7 @@ const SocialIcons = ({ invert = false, size = 16, className }: Props) => (
             rel="noopener noreferrer"
             aria-label={label}
             className={cn(
-              'block transition-colors duration-300',
+              'flex h-11 w-11 items-center justify-center transition-colors duration-300',
               invert
                 ? 'text-brand-white/70 hover:text-brand-brown'
                 : 'text-brand-black hover:text-brand-brown',

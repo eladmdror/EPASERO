@@ -208,7 +208,7 @@ export default function PropertyHero({
             ))}
           </Swiper>
           <button
-            className="swiper-button-prev-custom absolute top-1/2 left-2 z-10 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[12.5px] border-[1.25px] border-[rgba(124,104,88,0.3)] bg-white transition hover:bg-gray-50 hover:opacity-100 md:left-0 md:left-[19px]"
+            className="swiper-button-prev-custom absolute top-1/2 left-2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[12.5px] border-[1.25px] border-[rgba(124,104,88,0.3)] bg-white transition hover:bg-gray-50 hover:opacity-100 md:left-0 md:left-[19px]"
             aria-label="Scroll left"
           >
             <Image
@@ -220,7 +220,7 @@ export default function PropertyHero({
             />
           </button>
           <button
-            className="swiper-button-next-custom absolute top-1/2 right-2 z-10 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[12.5px] border-[1.25px] border-[rgba(124,104,88,0.3)] bg-white transition hover:bg-gray-50 hover:opacity-100 md:right-0 md:right-[19px]"
+            className="swiper-button-next-custom absolute top-1/2 right-2 z-10 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[12.5px] border-[1.25px] border-[rgba(124,104,88,0.3)] bg-white transition hover:bg-gray-50 hover:opacity-100 md:right-0 md:right-[19px]"
             aria-label="Scroll right"
           >
             <Image

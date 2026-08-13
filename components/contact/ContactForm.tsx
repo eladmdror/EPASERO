@@ -13,6 +13,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const EMPTY: Fields = { name: '', email: '', phone: '', location: '', overview: '' }
 
+/** Visual order of the fields — used to focus the first one that fails. */
+const FIELD_ORDER: (keyof Fields)[] = ['name', 'email', 'phone', 'location', 'overview']
+
 const ContactForm = () => {
   const [form, setForm] = useState<Fields>(EMPTY)
   const [errors, setErrors] = useState<Errors>({})
@@ -39,7 +42,14 @@ const ContactForm = () => {
 
     const found = validate()
     setErrors(found)
-    if (Object.keys(found).length > 0) return
+    if (Object.keys(found).length > 0) {
+      // Move focus to the first field that failed. Without this, submitting an
+      // incomplete form leaves focus on the button and a keyboard or screen
+      // reader user has to hunt back up the page for what went wrong.
+      const first = FIELD_ORDER.find(name => found[name])
+      if (first) document.getElementById(first)?.focus()
+      return
+    }
 
     setSubmitting(true)
     try {
@@ -92,6 +102,8 @@ const ContactForm = () => {
           </label>
           <input
             id="name"
+            aria-invalid={errors.name ? true : undefined}
+            aria-describedby={errors.name ? 'name-error' : undefined}
             type="text"
             required
             placeholder="Your name"
@@ -99,7 +111,11 @@ const ContactForm = () => {
             onChange={set('name')}
             className={field}
           />
-          {errors.name ? <p className="mt-1 text-xs text-red-600">{errors.name}</p> : null}
+          {errors.name ? (
+            <p id="name-error" role="alert" className="mt-1 text-xs text-red-600">
+              {errors.name}
+            </p>
+          ) : null}
         </div>
 
         <div>
@@ -108,6 +124,8 @@ const ContactForm = () => {
           </label>
           <input
             id="email"
+            aria-invalid={errors.email ? true : undefined}
+            aria-describedby={errors.email ? 'email-error' : undefined}
             type="email"
             required
             placeholder="your@email.com"
@@ -115,7 +133,11 @@ const ContactForm = () => {
             onChange={set('email')}
             className={field}
           />
-          {errors.email ? <p className="mt-1 text-xs text-red-600">{errors.email}</p> : null}
+          {errors.email ? (
+            <p id="email-error" role="alert" className="mt-1 text-xs text-red-600">
+              {errors.email}
+            </p>
+          ) : null}
         </div>
 
         <div>
@@ -124,6 +146,8 @@ const ContactForm = () => {
           </label>
           <input
             id="phone"
+            aria-invalid={errors.phone ? true : undefined}
+            aria-describedby={errors.phone ? 'phone-error' : undefined}
             type="tel"
             required
             placeholder="+971 XX XXX XXXX"
@@ -131,7 +155,11 @@ const ContactForm = () => {
             onChange={set('phone')}
             className={field}
           />
-          {errors.phone ? <p className="mt-1 text-xs text-red-600">{errors.phone}</p> : null}
+          {errors.phone ? (
+            <p id="phone-error" role="alert" className="mt-1 text-xs text-red-600">
+              {errors.phone}
+            </p>
+          ) : null}
         </div>
 
         <div>
@@ -140,6 +168,8 @@ const ContactForm = () => {
           </label>
           <input
             id="location"
+            aria-invalid={errors.location ? true : undefined}
+            aria-describedby={errors.location ? 'location-error' : undefined}
             type="text"
             required
             placeholder="e.g. Dubai Marina, Villa"
@@ -147,7 +177,11 @@ const ContactForm = () => {
             onChange={set('location')}
             className={field}
           />
-          {errors.location ? <p className="mt-1 text-xs text-red-600">{errors.location}</p> : null}
+          {errors.location ? (
+            <p id="location-error" role="alert" className="mt-1 text-xs text-red-600">
+              {errors.location}
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -157,6 +191,8 @@ const ContactForm = () => {
         </label>
         <textarea
           id="overview"
+          aria-invalid={errors.overview ? true : undefined}
+          aria-describedby={errors.overview ? 'overview-error' : undefined}
           required
           rows={5}
           placeholder="Tell us about your project…"
@@ -164,7 +200,11 @@ const ContactForm = () => {
           onChange={set('overview')}
           className={`${field} min-h-[120px] resize-y`}
         />
-        {errors.overview ? <p className="mt-1 text-xs text-red-600">{errors.overview}</p> : null}
+        {errors.overview ? (
+          <p id="overview-error" role="alert" className="mt-1 text-xs text-red-600">
+            {errors.overview}
+          </p>
+        ) : null}
       </div>
 
       {errors.form ? <p className="text-xs text-red-600">{errors.form}</p> : null}

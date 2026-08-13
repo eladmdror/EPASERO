@@ -99,9 +99,12 @@ const Header = () => {
 
         {/* Mobile: keep the Let's Connect CTA outside the hamburger. */}
         <div className="flex items-center gap-3 md:hidden">
+          {/* Both sized to a 44px minimum touch target (WCAG 2.5.5). The menu
+              button was 24×24 — about a quarter of the recommended area, on the
+              only control that reaches navigation from a phone. */}
           <Link
             href="/contact"
-            className="rounded-brand bg-brand-brown text-brand-white px-4 py-2 text-xs font-semibold"
+            className="rounded-brand bg-brand-brown text-brand-white flex min-h-11 items-center px-4 text-xs font-semibold"
           >
             Let&apos;s Connect
           </Link>
@@ -109,7 +112,7 @@ const Header = () => {
             onClick={() => setMenuOpen(v => !v)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
-            className="text-brand-black"
+            className="text-brand-black -mr-2 flex h-11 w-11 items-center justify-center"
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

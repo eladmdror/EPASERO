@@ -63,7 +63,19 @@ export default function Portfolio() {
             align="center"
           />
 
+          {/*
+            The filter row scrolls horizontally on mobile, but its scrollbar is
+            deliberately hidden — so with four categories, "Fit Out Projects"
+            and "Styling" sat entirely off-screen with nothing to suggest they
+            existed. The fade on the right edge is the affordance: it signals
+            more content, and disappears at `md` where all four fit.
+            `pointer-events-none` keeps it from blocking taps on the tabs under it.
+          */}
           <div className="relative w-full">
+            <div
+              aria-hidden="true"
+              className="from-brand-white pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l to-transparent md:hidden"
+            />
             <div className="mr-[-1rem] flex flex-col overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] md:mr-[0] md:w-auto md:flex-row md:items-end md:border-b md:border-[#a59e8c] [&::-webkit-scrollbar]:hidden">
               <div className="flex gap-6">
                 {portfolioCategories.map((category: PortfolioCategoryTab) => {
@@ -73,7 +85,7 @@ export default function Portfolio() {
                     <button
                       key={category.id}
                       onClick={() => handleCategoryChange(category.id)}
-                      className="group relative cursor-pointer pb-4 last:pr-4 md:last:pr-0"
+                      className="group relative flex min-h-11 cursor-pointer items-end pb-4 last:pr-4 md:last:pr-0"
                     >
                       <motion.p
                         initial={false}

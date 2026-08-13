@@ -29,12 +29,15 @@ const Footer = () => {
           {/* Quick links */}
           <nav aria-label="Quick links" className="flex flex-col gap-5">
             <h2 className="h1-label text-brand-white/80">Quick Links</h2>
-            <ul className="flex flex-col gap-3">
+            {/* `-my-2` keeps the visual rhythm while each link gets a taller
+                tap area — they were 17px high, which is a small target on a
+                phone even for a text link. */}
+            <ul className="-my-2 flex flex-col">
               {FOOTER_LINKS.map(({ label, href }) => (
                 <li key={label}>
                   <Link
                     href={href}
-                    className="text-brand-white/70 hover:text-brand-brown text-sm transition-colors duration-300"
+                    className="text-brand-white/70 hover:text-brand-brown flex min-h-11 items-center text-sm transition-colors duration-300"
                   >
                     {label}
                   </Link>
