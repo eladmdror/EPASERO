@@ -34,15 +34,28 @@ existing image; swapping them is a one-line `src` change in the file listed.
   | `price` | **All 32 are `$8,500,000`.** | Never rendered — `PropertyHero` |
   | `amenitiesColumns` | 14 distinct blocks across 32 projects, so most are shared between unrelated projects; one still quotes "Maintenance fee: $6,500 MXN" — Mexican pesos, on a Dubai site. | Never rendered — `PropertyDetails` |
 
-  `features` is wired to **self-enable**: `lib/content.ts` hides any list that two or more
-  projects share. Write genuine features for one project and they appear on that project's
-  page immediately, with no code change. The other projects stay hidden until theirs are
-  written. `price` and `amenitiesColumns` have no UI yet — they need the copy fixed first,
-  then a decision on whether to show them at all.
-- **`Frequently Asked Questions`** — the FAQ answers. Questions are transcribed into
-  `data/faqs.ts` with empty answers; the page hides unanswered questions, so `/faqs`
-  currently shows a holding message. Answers must be written by Epasero — these are
-  questions about renovation *pricing*, and invented figures would be a liability.
+  **Decided by Elad, 2026-07-29:**
+
+  - **`price` — never show it.** Settled, not pending. It stays out of the UI permanently,
+    so the identical `$8,500,000` across all 32 entries no longer matters. Do not add a
+    price display to `PropertyHero` or `PropertyDetails` without asking him again.
+  - **`features` — yes, show them.** The UI is built and live (the "Project Highlights"
+    block in `PropertyDetails`). It is waiting only on copy: `lib/content.ts` hides any
+    list two or more projects share, so writing genuine features for one project makes them
+    appear on that project's page immediately, with no code change. The rest stay hidden
+    until theirs are written.
+  - **`amenitiesColumns`** — still undecided and still unrendered. Needs the MXN reference
+    removed and the blocks rewritten per project before it is worth a decision.
+- ~~**`Frequently Asked Questions`**~~ — **received 2026-07-29** ("0. FAQs.docx"). All 54
+  answers across 5 service lines are live in `data/faqs.ts`, generated verbatim from the
+  document. They quote real AED figures and make regulatory claims about Dubai Municipality
+  and NOC approvals, so treat them as Epasero's authored copy — do not paraphrase or
+  "improve" them. Changes must come from Epasero.
+
+  Note `/faqs` is now **indexable**. §7's "hidden" was read as navigation placement, not
+  search: these answers target exactly what people search before hiring a Dubai fit-out
+  contractor, and are the strongest SEO asset on the site. Re-add `robots: { index: false }`
+  in `app/faqs/page.tsx` to reverse.
 - **`Epasero_Website_Layout_Mockup.html` / `epasero-article.html`** — referenced in the
   brief as `file:///C:/Users/Lenovo/Downloads/...`, a path on someone else's Windows
   machine. Not available.

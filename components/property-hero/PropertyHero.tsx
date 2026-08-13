@@ -19,10 +19,11 @@ interface PropertyHeroProps {
   title: string
   location: string
   /**
-   * Present in the data but deliberately never rendered: every one of the 32
-   * projects carries the identical `$8,500,000`, a leftover from the template.
-   * Publishing it would put the same fictional price on a veterinary clinic and
-   * a villa alike. See TODO.md.
+   * Never rendered, by Elad's decision on 2026-07-29: project prices are not
+   * shown on this site at all. (The data is also unusable — every one of the 32
+   * projects carries the identical `$8,500,000` from the template — but the
+   * decision stands independently of that.) Do not add a price display without
+   * checking with him first. See TODO.md.
    */
   price: string
   area: string
