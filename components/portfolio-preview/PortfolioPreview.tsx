@@ -2,11 +2,11 @@ import Container from '@/components/container/Container'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { ButtonLink } from '@/components/ui/Button'
 import PortfolioCard from '@/components/portfolio/PortfolioCard'
-import { portfolioProjects } from '@/data/data'
+import { getProjects } from '@/lib/cms'
 
 /** Spec §4.6 — homepage portfolio teaser. Full list lives on /portfolio. */
-const PortfolioPreview = () => {
-  const featured = portfolioProjects.slice(0, 6)
+const PortfolioPreview = async () => {
+  const featured = (await getProjects()).slice(0, 6)
 
   return (
     <section id="portfolio" className="py-section md:py-section-lg scroll-mt-24 bg-[#faf8f7]">

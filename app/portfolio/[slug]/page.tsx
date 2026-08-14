@@ -2,14 +2,14 @@ import { PortfolioProject } from '@/components/portfolio/types'
 import PropertyHero from '@/components/property-hero/PropertyHero'
 import PropertyDetails from '@/components/property-details/PropertyDetails'
 import CtaSection from '@/components/cta/CtaSection'
-import { categoryLabels, portfolioProjects } from '@/data/data'
+import { categoryLabels } from '@/data/data'
+import { getProjects, getProjectBySlug } from '@/lib/cms'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 
 export async function generateStaticParams() {
-  return portfolioProjects.map((project: PortfolioProject) => ({
-    slug: project.slug,
-  }))
+  const projects = await getProjects()
+  return projects.map((project: PortfolioProject) => ({ slug: project.slug }))
 }
 
 export async function generateMetadata(props: {
@@ -17,7 +17,7 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
   const { slug } = await props.params
 
-  const metadata = portfolioProjects.find((project: PortfolioProject) => project.slug === slug)
+  const metadata = await getProjectBySlug(slug)
 
   if (!metadata) return {}
 
@@ -32,7 +32,7 @@ export async function generateMetadata(props: {
 
 const DetailsPage = async ({ params }: { params: Promise<{ slug: string; language: string }> }) => {
   const { slug } = await params
-  const data = portfolioProjects.find((project: PortfolioProject) => project.slug === slug)
+  const data = await getProjectBySlug(slug)
 
   const propertyData = data?.property
 

@@ -1,13 +1,14 @@
 import 'dotenv/config'
 import { MetadataRoute } from 'next'
-import { portfolioProjects } from '@/data/data'
+import { getProjects } from '@/lib/cms'
 
 export const dynamic = 'force-static'
 
 const BASE_URL = process.env.BASE_URL || 'https://epaserocontracting.com'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
+  const projects = await getProjects()
 
   const staticUrls: MetadataRoute.Sitemap = [
     {
@@ -28,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // /faqs is deliberately absent — spec §7 wants it reachable but unlisted.
   ]
 
-  const dynamicUrls: MetadataRoute.Sitemap = portfolioProjects.map(project => ({
+  const dynamicUrls: MetadataRoute.Sitemap = projects.map(project => ({
     url: `${BASE_URL}/portfolio/${project.slug}`,
     lastModified: now,
     priority: 0.6,

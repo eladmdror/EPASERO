@@ -7,21 +7,42 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import PortfolioCard from './PortfolioCard'
 import Pagination from './Pagination'
 import { PortfolioCategory, PortfolioCategoryTab } from './types'
-import { portfolioCategories, portfolioProjects } from '@/data/data'
+import type { PortfolioProject } from './types'
 
 const PROJECTS_PER_PAGE = 9
 
-export default function Portfolio() {
+/**
+ * Projects arrive as a prop rather than being imported here.
+ *
+ * This component is a client component; the content now comes from the CMS,
+ * which is fetched on the server. Passing it down keeps the fetch on the server
+ * and means this file works unchanged whether the data came from Sanity or from
+ * `data/data.ts` — see `lib/cms.ts`.
+ *
+ * The category tabs are derived from the projects actually present, so counts
+ * can never drift from what is rendered.
+ */
+export default function Portfolio({ projects }: { projects: PortfolioProject[] }) {
+  const portfolioCategories: PortfolioCategoryTab[] = useMemo(
+    () => [
+      { id: 'all', label: 'All', count: projects.length },
+      { id: 'design', label: 'Design Projects', count: projects.filter(p => p.category === 'design').length },
+      { id: 'fitout', label: 'Fit Out Projects', count: projects.filter(p => p.category === 'fitout').length },
+      { id: 'styling', label: 'Styling', count: projects.filter(p => p.category === 'styling').length },
+    ],
+    [projects],
+  )
+
   const portfolioTopRef = useRef<HTMLDivElement>(null)
   const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('all')
   const [currentPage, setCurrentPage] = useState(1)
 
   const filteredProjects = useMemo(() => {
     if (activeCategory === 'all') {
-      return portfolioProjects
+      return projects
     }
-    return portfolioProjects.filter(project => project.category === activeCategory)
-  }, [activeCategory])
+    return projects.filter(project => project.category === activeCategory)
+  }, [activeCategory, projects])
 
   const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE)
   const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE

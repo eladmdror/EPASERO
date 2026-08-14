@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Container from '@/components/container/Container'
 import FaqAccordion from '@/components/faqs/FaqAccordion'
 import CtaSection from '@/components/cta/CtaSection'
-import { publishedFaqCategories, publishedFaqCount } from '@/data/faqs'
+import { getFaqCategories } from '@/lib/cms'
 
 /**
  * Spec §7 — deliberately clean, no hero. Kept out of the main navigation
@@ -20,7 +20,10 @@ export const metadata: Metadata = {
     'Answers on interior design, renovation and fit-out, architectural design, styling, and landscaping in Dubai — costs, timelines, permits, and process.',
 }
 
-export default function FaqsPage() {
+export default async function FaqsPage() {
+  const categories = await getFaqCategories()
+  const publishedFaqCount = categories.reduce((n, c) => n + c.faqs.length, 0)
+
   return (
     <main>
       <section className="pb-section md:pb-section-lg pt-32 md:pt-40">
@@ -36,7 +39,7 @@ export default function FaqsPage() {
           </div>
 
           {publishedFaqCount > 0 ? (
-            <FaqAccordion categories={publishedFaqCategories} />
+            <FaqAccordion categories={categories} />
           ) : (
             <p className="text-brand-muted">
               Answers are being finalised and will be published shortly.
