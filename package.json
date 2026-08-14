@@ -11,6 +11,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@portabletext/react": "^8.0.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^6.9.2",
     "@types/swiper": "^5.4.3",
@@ -45,6 +46,7 @@
     "prettier-plugin-tailwindcss": "^0.7.1",
     "sharp": "^0.35.3",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   },
   "allowScripts": {

@@ -38,6 +38,7 @@ export const FOOTER_LINKS = [
   { label: 'Our Services', href: '/#services' },
   { label: 'Our Portfolio', href: '/portfolio' },
   { label: "Let's Connect", href: '/contact' },
+  { label: 'Design & Build Journal', href: '/journal' },
   { label: 'FAQs', href: '/faqs' },
 ] as const
 

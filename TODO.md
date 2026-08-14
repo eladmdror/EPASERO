@@ -94,8 +94,11 @@ Copy `.env.example` to `.env.local` and fill in:
 
 ## Deferred by decision
 
-- **Journal / blog** (brief §4.8, §6) — skipped for now; needs a CMS with image upload.
-  When it lands, add "Design & Build Journal" to `FOOTER_LINKS` in `lib/site.ts`.
+- ~~**Journal / blog**~~ — **built 2026-07-29.** The blocker was exactly what it said: no
+  CMS with image upload. Sanity provides both, so `/journal` and `/journal/[slug]` now exist
+  and "Design & Build Journal" is in `FOOTER_LINKS`. Per §4.8 it stays out of the main nav
+  and the sitemap. Posts are written in the Studio; the page shows a holding line until the
+  first one is published.
 
 ## Deviations from the brief (deliberate)
 
@@ -115,9 +118,7 @@ Copy `.env.example` to `.env.local` and fill in:
   ("feel free to play around and see the best placement"); they return at 1024px, sit in the
   hamburger below 768px, and are in the footer on every page.
 
-- **"Design & Build Journal" is absent from the footer links.** §4.10 lists it, but the
-  journal page is deferred, and a footer link to a 404 is worse than no link. Add it to
-  `FOOTER_LINKS` in `lib/site.ts` the day the page ships.
+- ~~**"Design & Build Journal" absent from the footer**~~ — resolved; the page now exists.
 
 ## Popup safety guard
 
