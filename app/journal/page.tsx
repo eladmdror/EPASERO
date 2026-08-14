@@ -32,7 +32,6 @@ export default async function JournalPage() {
       <PageHero
         heading="Thinking Behind the Making"
         image="/hero-portfolio-bg.webp"
-        caption={'Design & Build Journal\n— Notes from the practice'}
       />
 
       <section className="py-section md:py-section-lg bg-brand-white">
@@ -43,6 +42,7 @@ export default async function JournalPage() {
             accent="Journal"
             body="Insight from within the practice. Articles on design, craft, and the discipline of building spaces that outlast the moment they were made in."
             align="center"
+            bodyAlign="left"
           />
 
           {posts.length === 0 ? (

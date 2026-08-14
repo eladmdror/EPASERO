@@ -73,7 +73,7 @@ const ContactForm = () => {
   if (sent) {
     return (
       <div className="rounded-brand border-brand-line flex min-h-[320px] flex-col items-center justify-center gap-4 border px-8 py-16 text-center">
-        <p className="h2-display text-brand-brown">
+        <p className="h2-display text-brand-brown max-w-[520px] !text-[22px] md:!text-[26px]">
           Thank you for connecting with Epasero. We have received your submission and will be in
           touch within 24 hours.
         </p>

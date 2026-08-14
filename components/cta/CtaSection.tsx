@@ -3,9 +3,15 @@ import SectionHeading from '@/components/ui/SectionHeading'
 import { ButtonLink } from '@/components/ui/Button'
 import { CTA_SECTION } from '@/lib/site'
 
-/** Spec §4.9 / §5.3 / §6.3 — identical on every page, so it lives in one place. */
+/**
+ * Spec §4.9 / §5.3 / §6.3 — identical on every page, so it lives in one place.
+ *
+ * QA 2026-08-14 asked for this to match the homepage "Our Portfolio" section
+ * exactly, to lift it off the page. That is #faf8f7, taken from
+ * PortfolioPreview rather than eyeballed, so the two cannot drift apart.
+ */
 const CtaSection = () => (
-  <section className="bg-brand-white py-section md:py-section-lg">
+  <section className="py-section md:py-section-lg bg-[#faf8f7]">
     <Container className="flex flex-col items-center gap-8 text-center">
       <SectionHeading
         label={CTA_SECTION.label}

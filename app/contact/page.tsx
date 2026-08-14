@@ -33,40 +33,40 @@ export default function ContactPage() {
             <SectionHeading label="Contact Us" heading="Contact" accent="Information" />
 
             <ul className="flex flex-col gap-8">
-              <li className="flex gap-4">
+              <li className="flex items-start gap-4">
                 <Phone size={20} className="text-brand-brown mt-1 shrink-0" />
-                <div>
-                  <p className="h1-label text-brand-black mb-1">Call Us</p>
+                <div className="flex flex-col gap-1">
+                  <p className="h1-label text-brand-black">Call Us</p>
                   <p className="text-brand-muted text-sm">{CONTACT.phoneLandline}</p>
                   {/* Tap-to-call and mailto are the two highest-intent actions
                       on this page, and both were 17px tall. `min-h-11` gives
                       them a proper touch target without changing the type. */}
                   <a
                     href={CONTACT.phoneMobileHref}
-                    className="text-brand-brown hover:text-brand-brown-dark inline-flex min-h-11 items-center text-sm transition-colors hover:underline"
+                    className="text-brand-brown hover:text-brand-brown-dark -my-2 inline-flex min-h-11 items-center text-sm transition-colors hover:underline"
                   >
                     {CONTACT.phoneMobile}
                   </a>
                 </div>
               </li>
 
-              <li className="flex gap-4">
+              <li className="flex items-start gap-4">
                 <Mail size={20} className="text-brand-brown mt-1 shrink-0" />
-                <div>
-                  <p className="h1-label text-brand-black mb-1">Email Us</p>
+                <div className="flex flex-col gap-1">
+                  <p className="h1-label text-brand-black">Email Us</p>
                   <a
                     href={`mailto:${CONTACT.email}`}
-                    className="text-brand-brown hover:text-brand-brown-dark inline-flex min-h-11 items-center text-sm break-all transition-colors hover:underline"
+                    className="text-brand-brown hover:text-brand-brown-dark -my-2 inline-flex min-h-11 items-center text-sm break-all transition-colors hover:underline"
                   >
                     {CONTACT.email}
                   </a>
                 </div>
               </li>
 
-              <li className="flex gap-4">
+              <li className="flex items-start gap-4">
                 <MapPin size={20} className="text-brand-brown mt-1 shrink-0" />
-                <div>
-                  <p className="h1-label text-brand-black mb-1">Visit Us</p>
+                <div className="flex flex-col gap-1">
+                  <p className="h1-label text-brand-black">Visit Us</p>
                   <p className="text-brand-muted text-sm">{CONTACT.address}</p>
                 </div>
               </li>

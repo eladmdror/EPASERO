@@ -31,7 +31,7 @@ export default async function FaqsPage() {
           <div className="flex flex-col gap-3">
             <h1 className="h2-display text-brand-black">Frequently Asked Questions</h1>
             {publishedFaqCount > 0 ? (
-              <p className="text-brand-muted max-w-[620px] text-base leading-relaxed">
+              <p className="text-brand-muted text-base leading-relaxed">
                 Costs, timelines, approvals, and process — answered across the five disciplines we
                 practise. If your question is not here, it is worth a direct conversation.
               </p>

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Container from '@/components/container/Container'
 import { motion, useInView } from 'framer-motion'
+import { ButtonLink } from '@/components/ui/Button'
 
 /**
  * Blur-and-fade reveal. Renders a plain div so callers choose their own heading
@@ -82,7 +83,7 @@ const Hero = () => {
           initial={{ filter: 'blur(20px)', opacity: 0 }}
           animate={visible ? { filter: 'blur(0px)', opacity: 1 } : {}}
           transition={{ duration: 1.2 }}
-          className="text-brand-white text-[48px] leading-[64px] font-bold tracking-[-1.92px] uppercase max-md:max-w-[550px] md:text-[60px] lg:text-[100px] lg:leading-[100px]"
+          className="text-brand-white text-[38px] leading-[50px] font-bold tracking-[-1.4px] uppercase max-md:max-w-[550px] md:text-[48px] md:leading-[58px] lg:text-[76px] lg:leading-[78px]"
         >
           <span className="block md:mb-[11px]">We Create</span>
           <span className="block text-center md:mb-[11px] md:ml-[103px] md:text-left">
@@ -91,14 +92,29 @@ const Hero = () => {
           <span className="ml-[117px] block max-md:text-right md:ml-[415px]">of Living</span>
         </motion.h1>
 
-        <motion.p
-          initial={{ filter: 'blur(20px)', opacity: 0 }}
-          animate={visible ? { filter: 'blur(0px)', opacity: 1 } : {}}
-          transition={{ duration: 1.2 }}
-          className="text-brand-white text-center text-base font-bold uppercase max-lg:hidden md:text-right"
-        >
-          Spaces that reflect your story, <br /> built to last.
-        </motion.p>
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          {/* QA 2026-08-14: a way into the portfolio straight from the hero.
+              `invert` keeps it legible over the photograph, where the standard
+              brown fill would sink into the background. */}
+          <motion.div
+            initial={{ filter: 'blur(20px)', opacity: 0 }}
+            animate={visible ? { filter: 'blur(0px)', opacity: 1 } : {}}
+            transition={{ duration: 1.2, delay: 0.15 }}
+          >
+            <ButtonLink href="/portfolio" variant="invert" className="px-8 py-4">
+              Discover Our Work
+            </ButtonLink>
+          </motion.div>
+
+          <motion.p
+            initial={{ filter: 'blur(20px)', opacity: 0 }}
+            animate={visible ? { filter: 'blur(0px)', opacity: 1 } : {}}
+            transition={{ duration: 1.2 }}
+            className="text-brand-white text-base font-bold uppercase max-lg:hidden lg:text-right"
+          >
+            Spaces that reflect your story, <br /> built to last.
+          </motion.p>
+        </div>
       </Container>
     </section>
   )

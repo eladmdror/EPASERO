@@ -25,14 +25,11 @@ const FaqAccordion = ({ categories }: { categories: FaqCategory[] }) => {
     <div className="flex flex-col gap-14">
       {categories.map(category => (
         <section key={category.title} className="flex flex-col gap-5">
-          <div className="flex items-baseline gap-4">
-            <h2 className="h2-display text-brand-black !text-[26px] md:!text-[30px]">
-              {category.title}
-            </h2>
-            <span className="h1-label text-brand-brown/60 !text-[11px]">
-              {category.faqs.length}
-            </span>
-          </div>
+          {/* The question count that sat beside each subtitle was removed at
+              QA 2026-08-14; the heading now stands alone with no leftover gap. */}
+          <h2 className="h2-display text-brand-black !text-[26px] md:!text-[30px]">
+            {category.title}
+          </h2>
 
           <ul className="flex flex-col gap-4">
             {category.faqs.map((faq, i) => {

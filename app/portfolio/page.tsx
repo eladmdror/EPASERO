@@ -20,9 +20,8 @@ const PortfolioPage = async () => {
   return (
   <main>
     <PageHero
-      heading="We Shape the Feeling of Space"
+      heading="Spaces That Define Themselves"
       image="/hero-portfolio-bg.webp"
-      caption={'Private Residence, Palm Jumeirah\n— Contemporary Luxury Interior'}
     />
     <Portfolio projects={projects} />
     <CtaSection />

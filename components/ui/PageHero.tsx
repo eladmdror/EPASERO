@@ -7,15 +7,19 @@ import Container from '@/components/container/Container'
 /**
  * Spec §5.1, §6.1, §8.1 — the Portfolio, Journal and Contact heroes must all
  * match the homepage hero's style and placement, so they share this component.
+ *
+ * QA 2026-08-14 raised the heading slightly on every page, and removed the
+ * bottom-right caption ("Design & Build Journal — Notes from the practice" and
+ * its siblings). The caption prop is gone rather than merely unused, so it
+ * cannot be reintroduced on one page and reappear across all three.
  */
 type Props = {
   /** Rendered in the homepage hero's typeface and weight. */
   heading: string
   image: string
-  caption?: string
 }
 
-const PageHero = ({ heading, image, caption }: Props) => (
+const PageHero = ({ heading, image }: Props) => (
   <section className="relative h-[70vh] max-h-[720px] min-h-[480px] w-full overflow-hidden">
     <Image
       src={image}
@@ -29,7 +33,7 @@ const PageHero = ({ heading, image, caption }: Props) => (
 
     <div className="absolute inset-0 bg-[#796853] opacity-50 mix-blend-multiply" />
 
-    <Container className="relative flex h-full flex-col justify-end pt-24 pb-16">
+    <Container className="relative flex h-full flex-col justify-end pt-24 pb-28 md:pb-32">
       <motion.h1
         initial={{ filter: 'blur(20px)', opacity: 0 }}
         animate={{ filter: 'blur(0px)', opacity: 1 }}
@@ -39,16 +43,6 @@ const PageHero = ({ heading, image, caption }: Props) => (
         {heading}
       </motion.h1>
 
-      {caption ? (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.2 }}
-          className="text-brand-white mt-6 text-right text-base font-bold uppercase max-lg:hidden"
-        >
-          {caption}
-        </motion.p>
-      ) : null}
     </Container>
   </section>
 )

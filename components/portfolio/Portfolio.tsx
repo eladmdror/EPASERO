@@ -49,17 +49,19 @@ export default function Portfolio({ projects }: { projects: PortfolioProject[] }
   const endIndex = startIndex + PROJECTS_PER_PAGE
   const currentProjects = filteredProjects.slice(startIndex, endIndex)
 
-  // Scroll back to the top of the grid when the page changes — but not on the
-  // first render, which would yank a visitor arriving at /portfolio#something.
-  // A ref, not state: this is a "have I run before" flag, and putting it in
-  // state forced an extra render and an eslint suppression to go with it.
-  const isInitialMount = useRef(true)
+  // Scroll back to the top of the grid when the page changes — but never on the
+  // first render, which would yank a visitor straight past the hero.
+  //
+  // This compares the actual page number rather than keeping a "have I run
+  // before" flag. The flag version looked equivalent but was not: React invokes
+  // effects twice in development, so the first pass consumed the flag and the
+  // second pass scrolled on load, burying the hero on every visit to /portfolio.
+  // Comparing values is immune to being run twice.
+  const previousPage = useRef(currentPage)
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false
-      return
-    }
+    if (previousPage.current === currentPage) return
+    previousPage.current = currentPage
     portfolioTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [currentPage])
 
@@ -82,6 +84,7 @@ export default function Portfolio({ projects }: { projects: PortfolioProject[] }
             accent="Define Themselves"
             body="From private residences in Dubai's most coveted addresses to distinguished commercial environments, each project is shaped by a singular design language, and finished to a standard that speaks for itself."
             align="center"
+            bodyAlign="left"
           />
 
           {/*

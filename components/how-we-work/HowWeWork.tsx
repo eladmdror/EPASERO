@@ -97,7 +97,7 @@ const HowWeWork = () => {
               >
                 <div className="rounded-brand border-brand-line mt-4 border bg-[#faf8f7] p-8">
                   <p className="h1-label text-brand-brown mb-3">{open.label}</p>
-                  <p className="text-brand-muted max-w-[820px] text-[15px] leading-relaxed">
+                  <p className="text-brand-muted max-w-[1040px] text-[15px] leading-relaxed">
                     {open.detail}
                   </p>
                 </div>

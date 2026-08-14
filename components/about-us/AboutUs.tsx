@@ -8,11 +8,11 @@ import SectionHeading from '@/components/ui/SectionHeading'
 
 /** Spec §4.3 — this copy is verbatim from the brief and must not be reworded. */
 const PARAGRAPHS = [
-  'Founded in Dubai in 2022, Epasero was born from the recognition that the existing standard was no longer enough. Conventional renovation and fit-out approaches failed to meet the expectations of modern clients, those who seek spaces with deeper character, elevated quality, and a distinctly contemporary perspective.',
-  'Where design meets custom-made functionality, Epasero was created to unite two essential worlds into one seamless vision: crafting exceptional luxury environments without ever compromising on comfort, practicality, or tailored living. We bring a profound understanding of how people truly live, translating these insights into refined forms and effortless functionality. Moving beyond repetitive solutions, we create spaces that feel timeless, designed to outlast trends rather than follow them.',
-  'Designing spaces where even the most ordinary routines feel exceptional, because In Epasero we understand that true luxury is felt in the small, everyday moments, not only in grand statements.',
+  'Founded in Dubai in 2022, Epasero Contracting was born from the recognition that the existing standard was no longer enough. Conventional renovation and fit-out approaches failed to meet the expectations of modern clients, those who seek spaces with deeper character, elevated quality, and a distinctly contemporary perspective.',
+  'Where design meets custom-made functionality, Epasero Contracting was created to unite two essential worlds into one seamless vision: crafting exceptional luxury environments without ever compromising on comfort, practicality, or tailored living. We bring a profound understanding of how people truly live, translating these insights into refined forms and effortless functionality. Moving beyond repetitive solutions, we create spaces that feel timeless, designed to outlast trends rather than follow them.',
+  'Designing spaces where even the most ordinary routines feel exceptional, because at Epasero Contracting we understand that true luxury is felt in the small, everyday moments, not only in grand statements.',
   'Today, we deliver bespoke interiors, renovation, fit-out, and landscaping projects across Dubai, from private villas and apartments to refined commercial spaces. Every project is crafted to feel impeccable, enduring, and distinctly personal.',
-  'What truly defines Epasero is its people. Our team is composed of seasoned professionals who share an uncompromising commitment to precision, craftsmanship, and excellence. When clients choose Epasero, they partner with a team dedicated to bringing their vision to life, at the highest possible standards.',
+  'What truly defines Epasero Contracting is its people. Our team is composed of seasoned professionals who share an uncompromising commitment to precision, craftsmanship, and excellence. When clients choose Epasero Contracting, they partner with a team dedicated to bringing their vision to life, at the highest possible standards.',
 ]
 
 const PRINCIPLES = ['Always Bespoke', 'Uncompromising Craft', 'Total Transparency']
@@ -78,9 +78,9 @@ const AboutUs = () => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="group rounded-brand border-brand-line hover:border-brand-brown hover:bg-brand-brown border px-6 py-8 text-center transition-colors duration-300"
+              className="rounded-brand border-brand-line border px-6 py-8 text-center"
             >
-              <span className="h1-label text-brand-brown group-hover:text-brand-white transition-colors duration-300">
+              <span className="h1-label text-brand-brown">
                 {principle}
               </span>
             </motion.div>

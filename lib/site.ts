@@ -37,13 +37,13 @@ export const FOOTER_LINKS = [
   { label: 'About Us', href: '/#about' },
   { label: 'Our Services', href: '/#services' },
   { label: 'Our Portfolio', href: '/portfolio' },
-  { label: "Let's Connect", href: '/contact' },
   { label: 'Design & Build Journal', href: '/journal' },
   { label: 'FAQs', href: '/faqs' },
+  { label: "Let's Connect", href: '/contact' },
 ] as const
 
 export const FOOTER_DESCRIPTION =
-  'Epasero ensures that luxury is felt through the precision of daily routines and meticulous craftsmanship. Every project is executed with an uncompromising commitment to quality, delivering enduring environments that are both impeccable and distinctly contemporary.'
+  'Epasero Contracting ensures that luxury is felt through the precision of daily routines and meticulous craftsmanship. Every project is executed with an uncompromising commitment to quality, delivering enduring environments that are both impeccable and distinctly contemporary.'
 
 /** Shared across the homepage, portfolio and journal — spec §4.9, §5.3, §6.3. */
 export const CTA_SECTION = {

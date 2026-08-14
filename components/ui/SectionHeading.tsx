@@ -18,6 +18,14 @@ type Props = {
   /** Render light-on-dark (for use over imagery or the black footer). */
   invert?: boolean
   align?: 'left' | 'center'
+  /**
+   * Align the body copy independently of the label and heading.
+   *
+   * QA 2026-08-14 asked for the portfolio and journal descriptions to be
+   * left-aligned and full width while their headings stay centred — centred
+   * body copy at that length produced short, ragged lines.
+   */
+  bodyAlign?: 'left' | 'center'
   className?: string
 }
 
@@ -46,8 +54,10 @@ const SectionHeading = ({
   body,
   invert = false,
   align = 'left',
+  bodyAlign,
   className,
 }: Props) => {
+  const bodyAlignment = bodyAlign ?? align
   return (
     <div
       className={cn(
@@ -87,8 +97,8 @@ const SectionHeading = ({
       {body ? (
         <p
           className={cn(
-            'max-w-[680px] text-base leading-relaxed',
-            align === 'center' && 'mx-auto',
+            'max-w-[1040px] text-base leading-relaxed',
+            bodyAlignment === 'center' ? 'mx-auto' : 'w-full text-left',
             invert ? 'text-brand-white/70' : 'text-brand-muted',
           )}
         >

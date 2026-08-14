@@ -63,15 +63,13 @@ const Header = () => {
           Desktop nav — shown from 768px, which is what spec §4.1 asks for
           ("on screens below 768px, collapse nav links into a hamburger").
 
-          Measured at 1024px: logo 112 + links 294 + socials 112 + button 134,
-          plus 80px row padding and the gaps, needs 820px. That does not fit at
-          768. Dropping only the social icons in the 768–1023 band brings it to
-          676px and fits with room to spare, so the links — the part §4.1 says
-          must never hide behind a hamburger on desktop — stay visible.
+          The bar used to need 820px because it carried four social icons, so
+          they were dropped between 768 and 1023. QA 2026-08-14 reduced the
+          header to Instagram alone, which frees ~68px and brings it to ~752px —
+          so the single icon now fits at 768 and no longer needs hiding.
 
-          §4.1 explicitly allows this ("if this placement doesn't look good,
-          feel free to play around"). The icons return at 1024px, are in the
-          hamburger below 768px, and are in the footer on every page.
+          It renders in Instagram's own pink rather than the site's black, which
+          is what that QA note asked for: one recognisable, highlighted icon.
         */}
         <nav className="hidden items-center gap-8 md:flex">
           <ul className="flex items-center gap-8">
@@ -87,7 +85,7 @@ const Header = () => {
             ))}
           </ul>
 
-          <SocialIcons className="hidden lg:flex" />
+          <SocialIcons only={['Instagram']} brandColour size={20} />
 
           <Link
             href="/contact"
@@ -141,7 +139,7 @@ const Header = () => {
               </li>
             ))}
           </ul>
-          <SocialIcons size={20} />
+          <SocialIcons size={22} only={['Instagram']} brandColour />
         </div>
       ) : null}
     </header>

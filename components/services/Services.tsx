@@ -90,7 +90,7 @@ const Services = () => {
                       transition={{ duration: 0.35, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <p className="text-brand-muted max-w-[820px] px-4 py-6 text-[15px] leading-relaxed md:px-6">
+                      <p className="text-brand-muted max-w-[1040px] px-4 py-6 text-[15px] leading-relaxed md:px-6">
                         {service.description}
                       </p>
                     </motion.div>
