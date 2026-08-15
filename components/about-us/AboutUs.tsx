@@ -27,7 +27,25 @@ const AboutUs = () => (
     <Container className="flex flex-col gap-16">
       <SectionHeading label="About Us" heading="Curating" accent="Elevated Living" />
 
-      <div className="grid gap-10 md:grid-cols-2 md:gap-16">
+      {/*
+        Two columns of equal-weight grey text either side of a square photo read
+        as a brochure. The first paragraph is the thesis of the whole company,
+        so it is set as one — large, in the display serif, running the full
+        measure — and the remaining four follow beneath it in two columns as
+        body copy. That gives the section a beginning instead of a flat start,
+        and the photograph a reason to sit where it does.
+      */}
+      <motion.p
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="h2-display text-brand-black max-w-[1000px] !text-[clamp(21px,2.3vw,30px)] !leading-[1.45] !tracking-normal"
+      >
+        {PARAGRAPHS[0]}
+      </motion.p>
+
+      <div className="grid gap-10 md:grid-cols-[1.15fr_1fr] md:gap-16">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -35,12 +53,12 @@ const AboutUs = () => (
           transition={{ staggerChildren: 0.08 }}
           className="flex flex-col gap-5"
         >
-          {PARAGRAPHS.map((text, i) => (
+          {PARAGRAPHS.slice(1).map((text, i) => (
             <motion.p
               key={i}
               variants={fadeUp}
               transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="text-brand-muted text-[15px] leading-relaxed"
+              className="prose-body !text-[15.5px]"
             >
               {text}
             </motion.p>
@@ -51,14 +69,14 @@ const AboutUs = () => (
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="rounded-brand-lg relative min-h-[420px] overflow-hidden md:min-h-full"
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="rounded-brand-lg relative min-h-[440px] overflow-hidden md:min-h-full"
         >
           <Image
             src="/about-us-team_up2.webp"
             alt="The Epasero team at work in Dubai"
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 768px) 100vw, 45vw"
             className="object-cover"
           />
         </motion.div>
@@ -66,21 +84,26 @@ const AboutUs = () => (
 
       {/* Principles — spec §4.3 */}
       <div className="flex flex-col gap-8">
-        <h3 className="text-brand-black text-xl font-semibold md:text-2xl">
+        <h3 className="h2-display text-brand-black !text-[clamp(24px,2.4vw,32px)]">
           The Principles Behind Every Project
         </h3>
 
-        <div className="grid gap-4 sm:grid-cols-3">
-          {PRINCIPLES.map(principle => (
+        {/* Set in the display face rather than as a small mono label — these are
+            the three promises the company makes, not metadata. The rule above
+            each one is the site's dimension mark, tying them to the section
+            headings. */}
+        <div className="grid gap-px sm:grid-cols-3 bg-brand-line">
+          {PRINCIPLES.map((principle, i) => (
             <motion.div
               key={principle}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="rounded-brand border-brand-line border px-6 py-8 text-center"
+              transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.08 }}
+              className="bg-brand-white flex flex-col gap-4 px-7 py-9"
             >
-              <span className="h1-label text-brand-brown">
+              <span aria-hidden="true" className="dimension-rule bg-brand-brown/60 h-px w-10" />
+              <span className="h2-display text-brand-black !text-[clamp(19px,1.6vw,23px)]">
                 {principle}
               </span>
             </motion.div>
@@ -90,7 +113,7 @@ const AboutUs = () => (
 
       {/* Trusted By — developer logos */}
       <div className="flex flex-col gap-8">
-        <h3 className="text-brand-black text-xl font-semibold md:text-2xl">Trusted By</h3>
+        <h3 className="h1-label text-brand-muted">Trusted By</h3>
         <Marquee autoFill speed={30} gradient gradientColor="white" className="flex items-center">
           {Array.from({ length: 8 }, (_, i) => (
             <Image

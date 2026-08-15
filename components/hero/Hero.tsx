@@ -35,7 +35,15 @@ export const BlurIn = ({
 
 /**
  * Spec §4.2 — headline is exactly "We Create the Feeling of Living", keeping the
- * existing typeface and staggered placement.
+ * staggered placement.
+ *
+ * Set in Cormorant (option B, chosen 2026-08-14). It previously used the body
+ * sans, which made the hero the one element on the page not speaking the site's
+ * own voice — a visible seam between a sans headline and an entirely serif page
+ * beneath it. Wording and capitalisation are unchanged, as the QA round asked;
+ * only the face differs. The inline style is deliberate: `--font-display` is
+ * declared on `body` rather than in `@theme`, so no Tailwind `font-*` utility
+ * exists for it (see the note in globals.css).
  *
  * The spec asks to try brand black or brown for the headline. Both are illegible
  * against the current dark photograph, so this stays white until the supplied
@@ -83,7 +91,8 @@ const Hero = () => {
           initial={{ filter: 'blur(20px)', opacity: 0 }}
           animate={visible ? { filter: 'blur(0px)', opacity: 1 } : {}}
           transition={{ duration: 1.2 }}
-          className="text-brand-white text-[38px] leading-[50px] font-bold tracking-[-1.4px] uppercase max-md:max-w-[550px] md:text-[48px] md:leading-[58px] lg:text-[76px] lg:leading-[78px]"
+          style={{ fontFamily: 'var(--font-display)' }}
+          className="text-brand-white text-[42px] leading-[1.02] font-semibold tracking-[-0.01em] uppercase max-md:max-w-[550px] md:text-[56px] lg:text-[88px]"
         >
           <span className="block md:mb-[11px]">We Create</span>
           <span className="block text-center md:mb-[11px] md:ml-[103px] md:text-left">

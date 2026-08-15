@@ -18,13 +18,11 @@
   --color-brand-line: #e5e0dd;
   --color-brand-muted: #5c5551;
 
-  /* Segoe UI is Windows-only and Microsoft-licensed: it cannot legally be
-     self-hosted and does not exist on macOS/iOS/Android. Leading with it gives
-     Windows users the intended face; everyone else falls through to a
-     metrically similar neutral sans. */
-  --font-body:
-    'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Roboto, Arial, sans-serif;
-  --font-label: 'Courier New', Courier, monospace;
+  /* NOTE: --font-body and --font-label are NOT declared here either — same
+     reason as --font-display below. They reference next/font variables that
+     only exist on <body>, and a var() pointing at an undefined custom property
+     invalidates the whole declaration, silently falling back to a system face.
+     All three are declared on `body`, where those variables are in scope. */
 
   /* NOTE: --font-display is deliberately NOT declared here. `@theme` emits into
      :root, but next/font defines --font-cormorant on <body>. A var() pointing at
@@ -47,8 +45,22 @@ html {
 }
 
 body {
-  /* Declared here, not in @theme — see the note above. */
+  /* All three declared here, not in @theme — see the note above.
+     
+     The brief asked for Segoe UI, which is Windows-only and Microsoft-licensed:
+     it cannot legally be webfont-hosted, so the body was previously rendering in
+     whatever sans each visitor's OS supplied — a different, undesigned face per
+     platform. Archivo delivers the brief's intent (a clean neutral sans) while
+     being identical everywhere, and drawn rather than inherited. Segoe UI stays
+     in the stack so Windows users see no shift if Archivo is slow to arrive.
+
+     Courier New likewise: the brief wanted a typewriter label; IBM Plex Mono is
+     that idea drawn properly, by a foundry, for an engineering company. */
   --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-body:
+    var(--font-archivo), 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-label: var(--font-plex-mono), 'IBM Plex Mono', 'Courier New', monospace;
 
   background: var(--color-brand-white);
   color: var(--color-brand-black);
@@ -182,11 +194,15 @@ select:focus-visible,
    tight face breathe. 0.2em is the point where it reads as annotation. */
 .h1-label {
   font-family: var(--font-label);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 12px;
-  line-height: 1.4;
+  /* Courier New is a wide, weak face and needed 0.2em plus bold to hold a line.
+     Plex Mono is properly drawn and optically larger at the same size, so it
+     wants less of both — 0.16em and medium reads as precise where the old
+     settings now read as shouted. */
+  letter-spacing: 0.16em;
+  font-size: 11.5px;
+  line-height: 1.45;
 }
 
 /* The Cormorant display line, e.g. "Curating Elevated Living".
@@ -228,8 +244,16 @@ select:focus-visible,
 .prose-body {
   font-size: 16px;
   line-height: 1.75;
-  letter-spacing: 0.003em;
+  /* Archivo sets a touch tight for long reading; a hair of positive tracking
+     opens it back up without loosening the texture. */
+  letter-spacing: 0.008em;
   color: var(--color-brand-muted);
+}
+
+/* Archivo's default weight reads heavier than the system sans it replaced, so
+   body copy sits at 400 and only genuine emphasis goes to 500+. */
+body {
+  font-weight: 400;
 }
 
 /* --- Swiper overrides (existing portfolio slider) ----------------------- */
