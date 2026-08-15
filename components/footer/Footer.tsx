@@ -21,14 +21,14 @@ const Footer = () => {
           {/* Logo + description */}
           <div className="flex flex-col gap-6">
             <Image src={logo} alt="Epasero Contracting" className="h-auto w-[180px]" />
-            <p className="text-brand-white/70 max-w-[420px] text-sm leading-relaxed">
+            <p className="text-brand-white/60 max-w-[420px] text-sm leading-[1.75]">
               {FOOTER_DESCRIPTION}
             </p>
           </div>
 
           {/* Quick links */}
           <nav aria-label="Quick links" className="flex flex-col gap-5">
-            <h2 className="h1-label text-brand-white/80">Quick Links</h2>
+            <h2 className="h1-label text-brand-white/50">Quick Links</h2>
             {/* `-my-2` keeps the visual rhythm while each link gets a taller
                 tap area — they were 17px high, which is a small target on a
                 phone even for a text link. */}
@@ -37,7 +37,7 @@ const Footer = () => {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="text-brand-white/70 hover:text-brand-brown flex min-h-11 items-center text-sm transition-colors duration-300"
+                    className="link-underline text-brand-white/70 hover:text-brand-white relative inline-flex min-h-11 items-center text-sm transition-colors duration-300"
                   >
                     {label}
                   </Link>
@@ -48,7 +48,7 @@ const Footer = () => {
 
           {/* Social */}
           <div className="flex flex-col gap-5">
-            <h2 className="h1-label text-brand-white/80">Follow Us</h2>
+            <h2 className="h1-label text-brand-white/50">Follow Us</h2>
             <SocialIcons invert size={18} />
           </div>
         </div>

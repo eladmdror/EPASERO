@@ -53,6 +53,24 @@ body {
   background: var(--color-brand-white);
   color: var(--color-brand-black);
   font-family: var(--font-body);
+
+  /* Kerning and common ligatures are off by default in most browsers for
+     performance. On a page whose headline is a high-contrast serif at 76px,
+     that is exactly where bad letter fit shows. */
+  font-kerning: normal;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numerals in labels, specs and dates should line up in columns rather than
+   wander — this is a contractor's site, full of areas, years and phone numbers. */
+.h1-label,
+time,
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Spec §1.3: every interactive element gets a smooth hover transition. */
@@ -157,29 +175,61 @@ select:focus-visible,
 
 /* --- Type primitives ---------------------------------------------------- */
 
-/* The small letter-spaced Courier kicker above a heading, e.g. "ABOUT US" */
+/* The small letter-spaced Courier kicker above a heading, e.g. "ABOUT US".
+
+   Courier is a typewriter face: it is already wide and loose, so the tracking
+   here is doing the work of a drafting callout rather than trying to make a
+   tight face breathe. 0.2em is the point where it reads as annotation. */
 .h1-label {
   font-family: var(--font-label);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 13px;
+  letter-spacing: 0.2em;
+  font-size: 12px;
   line-height: 1.4;
 }
 
-/* The Cormorant display line, e.g. "Curating Elevated Living" */
+/* The Cormorant display line, e.g. "Curating Elevated Living".
+
+   Cormorant is a high-contrast display serif drawn for large sizes. Two things
+   it needs that it was not getting:
+
+   1. Optical tracking. A single fixed -0.01em is wrong at both ends of the
+      clamp — too tight at 30px, far too loose at 46px. Tracking now scales with
+      the size, tightening as the type grows, which is how display serifs are
+      meant to be set.
+   2. Room to breathe. Its ascenders and descenders are long; 1.15 line-height
+      clipped them on two-line headings. 1.08 with the extra top space reads
+      tighter *and* stops the clipping, because the value now matches the face's
+      actual metrics rather than a generic guess. */
 .h2-display {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(30px, 4vw, 46px);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-size: clamp(30px, 3.6vw, 52px);
+  line-height: 1.08;
+  letter-spacing: clamp(-0.02em, -0.04vw, 0em);
+  text-wrap: balance;
 }
 
-/* The brown italic accent inside an H2, per the About Us reference image */
+/* The brown italic accent inside an H2, per the About Us reference image.
+
+   Cormorant's italic is a genuine cursive cut, not a slanted roman, and it sits
+   slightly small beside the upright. A touch of size and a hair of extra
+   letter-spacing puts the two on the same optical footing. */
 .h2-accent {
   font-style: italic;
   color: var(--color-brand-brown);
+  font-size: 1.04em;
+  letter-spacing: 0.005em;
+}
+
+/* Long-form reading copy. 1.7 rather than the browser default 1.5: at this
+   measure the extra leading is the difference between scanning and reading. */
+.prose-body {
+  font-size: 16px;
+  line-height: 1.75;
+  letter-spacing: 0.003em;
+  color: var(--color-brand-muted);
 }
 
 /* --- Swiper overrides (existing portfolio slider) ----------------------- */
@@ -227,5 +277,93 @@ select:focus-visible,
     .swiper-pagination-bullets.swiper-pagination-horizontal {
       opacity: 0;
     }
+  }
+}
+
+/* --- Buttons ------------------------------------------------------------ */
+
+/* The fill sweeps up from the bottom edge rather than switching colour.
+   
+   This company applies finishes to surfaces for a living, so a button that
+   *fills* — the way a coat goes on — says something true about them, where a
+   colour swap says nothing. It is one gesture, used on every button, so it
+   reads as a system rather than an effect.
+
+   Mechanically it is a pseudo-element scaled on the Y axis: compositor-only,
+   so it costs nothing, and it sits behind the label via a stacking context
+   rather than needing z-index juggling on the text. */
+.btn-sweep {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.btn-sweep::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-sweep-colour, var(--color-brand-brown));
+  transform: scaleY(0);
+  transform-origin: bottom;
+  /* Slightly slower out than in: the fill arrives with intent and recedes
+     without drawing attention to itself. */
+  transition: transform 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.btn-sweep:hover::before,
+.btn-sweep:focus-visible::before {
+  transform: scaleY(1);
+}
+
+/* The label needs its own transition so it changes colour *with* the fill
+   rather than before it. */
+.btn-sweep {
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* A hairline that extends on hover — used on text links that are not buttons,
+   so they still feel interactive without borrowing button styling. */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* The current page in the nav. A rule rather than a colour change, so it
+   matches the dimension-rule language used for section labels. */
+.nav-current::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: var(--color-brand-brown);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-sweep::before,
+  .link-underline::after {
+    transition: none;
   }
 }

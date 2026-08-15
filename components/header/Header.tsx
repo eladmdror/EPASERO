@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
@@ -16,6 +17,18 @@ import { cn } from '@/lib/utils'
 const Header = () => {
   const [compressed, setCompressed] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const pathname = usePathname()
+
+  /**
+   * Which nav item is the current page.
+   *
+   * There was no active state at all — every link looked identical wherever you
+   * were, so the nav told you nothing about your location. The marker is a
+   * hairline rather than a colour change, matching the dimension rule used for
+   * section labels. Homepage anchors (#about, #services) are deliberately never
+   * "current": they are positions on a page, not destinations.
+   */
+  const isCurrent = (href: string) => href.startsWith('/') && !href.includes('#') && pathname.startsWith(href)
 
   useEffect(() => {
     const onScroll = () => setCompressed(window.scrollY > 40)
@@ -77,7 +90,11 @@ const Header = () => {
               <li key={label}>
                 <Link
                   href={href}
-                  className="text-brand-black hover:text-brand-brown text-sm font-medium transition-colors duration-300"
+                  aria-current={isCurrent(href) ? 'page' : undefined}
+                  className={cn(
+                    'link-underline text-brand-black hover:text-brand-brown relative py-1 text-sm font-medium transition-colors duration-300',
+                    isCurrent(href) && 'nav-current text-brand-brown',
+                  )}
                 >
                   {label}
                 </Link>
@@ -89,7 +106,7 @@ const Header = () => {
 
           <Link
             href="/contact"
-            className="rounded-brand bg-brand-brown text-brand-white hover:bg-brand-brown-dark px-5 py-2.5 text-sm font-semibold transition-colors duration-300"
+            className="btn-sweep rounded-brand bg-brand-brown text-brand-white [--btn-sweep-colour:var(--color-brand-brown-dark)] flex min-h-11 items-center px-5 text-[13px] font-semibold tracking-[0.08em] uppercase"
           >
             Let&apos;s Connect
           </Link>
@@ -102,7 +119,7 @@ const Header = () => {
               only control that reaches navigation from a phone. */}
           <Link
             href="/contact"
-            className="rounded-brand bg-brand-brown text-brand-white flex min-h-11 items-center px-4 text-xs font-semibold"
+            className="btn-sweep rounded-brand bg-brand-brown text-brand-white [--btn-sweep-colour:var(--color-brand-brown-dark)] flex min-h-11 items-center px-4 text-[11px] font-semibold tracking-[0.08em] uppercase"
           >
             Let&apos;s Connect
           </Link>
@@ -132,7 +149,11 @@ const Header = () => {
                 <Link
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className="h2-display text-brand-black"
+                  aria-current={isCurrent(href) ? 'page' : undefined}
+                  className={cn(
+                    'h2-display',
+                    isCurrent(href) ? 'text-brand-brown' : 'text-brand-black',
+                  )}
                 >
                   {label}
                 </Link>

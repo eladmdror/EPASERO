@@ -22,7 +22,7 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-40px' }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="group rounded-brand-lg border-brand-line bg-brand-white hover:border-brand-brown h-full overflow-hidden border transition-all duration-300 hover:shadow-lg"
+        className="group rounded-brand-lg border-brand-line bg-brand-white hover:border-brand-brown/70 h-full overflow-hidden border transition-colors duration-300"
       >
         <div className="relative">
           <PortfolioImageSlider project={project} />
@@ -34,14 +34,35 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
         </div>
 
         <div className="flex flex-col gap-3 p-6">
-          <h3 className="h2-display text-brand-black group-hover:text-brand-brown !text-[22px] transition-colors duration-300">
+          <h3 className="h2-display text-brand-black group-hover:text-brand-brown !text-[24px] transition-colors duration-300">
             {project.title}
           </h3>
 
-          <p className="text-brand-muted flex items-center gap-2 text-xs tracking-[0.08em] uppercase">
-            <MapPin size={14} className="text-brand-brown shrink-0" />
-            {project.location}
-          </p>
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-brand-muted flex items-center gap-2 text-xs tracking-[0.08em] uppercase">
+              <MapPin size={14} className="text-brand-brown shrink-0" />
+              {project.location}
+            </p>
+
+            {/* The card was a dead-looking rectangle whose only hover feedback
+                was a drop shadow — the cheapest signal available. The shadow is
+                gone; this arrow slides in instead, so the card says "there is a
+                page behind me" in the site's own line language. */}
+            <span
+              aria-hidden="true"
+              className="text-brand-brown shrink-0 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+            >
+              <svg width="22" height="8" viewBox="0 0 22 8" fill="none">
+                <path
+                  d="M0 4h20M17 1l3 3-3 3"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
       </motion.article>
     </Link>

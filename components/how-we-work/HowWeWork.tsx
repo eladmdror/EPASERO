@@ -62,23 +62,29 @@ const HowWeWork = () => {
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   aria-expanded={isOpen}
                   className={cn(
-                    'group rounded-brand border-brand-line flex flex-col gap-3 border p-6 text-left transition-colors duration-300',
+                    'btn-sweep group rounded-brand border-brand-line flex flex-col gap-4 border p-7 text-left',
+                    '[--btn-sweep-colour:var(--color-brand-brown)]',
                     isOpen
                       ? 'border-brand-brown bg-brand-brown text-brand-white'
-                      : 'text-brand-black hover:border-brand-brown hover:bg-brand-brown hover:text-brand-white',
+                      : 'text-brand-black hover:border-brand-brown hover:text-brand-white',
                   )}
                 >
+                  {/* These four genuinely are a sequence, so the numeral earns
+                      its prominence — it is the one place on the site where a
+                      number carries information rather than decoration. */}
                   <span
                     className={cn(
-                      'h1-label transition-colors duration-300',
-                      isOpen
-                        ? 'text-brand-white/80'
-                        : 'text-brand-brown group-hover:text-brand-white/80',
+                      'flex items-baseline gap-3 transition-colors duration-300',
+                      isOpen ? 'text-brand-white' : 'text-brand-brown group-hover:text-brand-white',
                     )}
                   >
-                    {step.label}
+                    <span className="font-label text-[30px] leading-none font-bold tracking-tight">
+                      {step.label.split(' / ')[0]}
+                    </span>
+                    <span className="h1-label opacity-70">{step.label.split(' / ')[1]}</span>
                   </span>
-                  <span className="h2-display !text-[clamp(19px,1.7vw,24px)]">{step.summary}</span>
+
+                  <span className="h2-display !text-[clamp(20px,1.7vw,25px)]">{step.summary}</span>
                 </button>
               )
             })}
@@ -97,9 +103,7 @@ const HowWeWork = () => {
               >
                 <div className="rounded-brand border-brand-line mt-4 border bg-[#faf8f7] p-8">
                   <p className="h1-label text-brand-brown mb-3">{open.label}</p>
-                  <p className="text-brand-muted max-w-[1040px] text-[15px] leading-relaxed">
-                    {open.detail}
-                  </p>
+                  <p className="prose-body max-w-[1040px]">{open.detail}</p>
                 </div>
               </motion.div>
             ) : null}

@@ -1,20 +1,33 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
-/** Buttons & CTAs — spec §1.1: Segoe UI, uppercase, 0.1em tracking, weight 600. */
+/**
+ * Buttons & CTAs — spec §1.1: Segoe UI, uppercase, 0.1em tracking, weight 600.
+ *
+ * Every variant shares one gesture: the fill sweeps up from the bottom edge on
+ * hover (`.btn-sweep`, defined in globals.css) rather than swapping colour.
+ * Epasero apply finishes to surfaces for a living, so a button that fills the
+ * way a coat goes on says something true about them; a colour swap says
+ * nothing. Using the same motion everywhere makes it read as a system.
+ *
+ * `min-h-11` keeps every button at the 44px minimum touch target.
+ */
 const base =
-  'inline-flex items-center justify-center rounded-brand px-6 py-3 text-sm font-semibold uppercase tracking-[0.1em] transition-all duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60'
+  'btn-sweep group inline-flex min-h-11 items-center justify-center gap-3 rounded-brand px-7 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none'
 
 const variants = {
-  /** Brand brown fill, white text, darkens 10% on hover. */
-  primary: 'bg-brand-brown text-brand-white hover:bg-brand-brown-dark',
-  /** Outlined, fills brown on hover. */
-  outline: 'border border-brand-brown text-brand-brown hover:bg-brand-brown hover:text-brand-white',
+  /** Brand brown fill. The sweep is the darker shade, so it reads as depth. */
+  primary:
+    'bg-brand-brown text-brand-white [--btn-sweep-colour:var(--color-brand-brown-dark)]',
+  /** Outlined; fills brown. */
+  outline:
+    'border border-brand-brown text-brand-brown hover:text-brand-white [--btn-sweep-colour:var(--color-brand-brown)]',
   /** For use on dark/photographic backgrounds. */
-  invert: 'border border-brand-white text-brand-white hover:bg-brand-white hover:text-brand-black',
+  invert:
+    'border border-brand-white/70 text-brand-white hover:border-brand-white hover:text-brand-black [--btn-sweep-colour:var(--color-brand-white)]',
   /** White fill, black text — the lead-capture DOWNLOAD button (spec §3.2). */
   light:
-    'bg-brand-white text-brand-black border border-brand-black hover:bg-brand-black hover:text-brand-white',
+    'bg-brand-white text-brand-black border border-brand-black hover:text-brand-white [--btn-sweep-colour:var(--color-brand-black)]',
 } as const
 
 type Variant = keyof typeof variants

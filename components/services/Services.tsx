@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Container from '@/components/container/Container'
 import SectionHeading from '@/components/ui/SectionHeading'
@@ -65,20 +64,30 @@ const Services = () => {
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                   aria-expanded={isOpen}
                   className={cn(
-                    'group flex w-full items-center justify-between gap-6 px-4 py-6 text-left transition-colors duration-300 md:px-6',
-                    isOpen
-                      ? 'bg-brand-brown text-brand-white'
-                      : 'text-brand-black hover:bg-brand-brown hover:text-brand-white',
+                    'btn-sweep group flex w-full items-center justify-between gap-6 px-4 py-7 text-left md:px-6',
+                    '[--btn-sweep-colour:var(--color-brand-brown)]',
+                    isOpen ? 'bg-brand-brown text-brand-white' : 'text-brand-black hover:text-brand-white',
                   )}
                 >
-                  <span className="h2-display !text-[clamp(20px,2.4vw,30px)]">{service.name}</span>
-                  <ChevronDown
-                    size={22}
-                    className={cn(
-                      'shrink-0 transition-transform duration-300',
-                      isOpen && 'rotate-180',
-                    )}
-                  />
+                  <span className="h2-display !text-[clamp(21px,2.2vw,32px)]">{service.name}</span>
+
+                  {/* A plus that becomes a minus, rather than a chevron that
+                      spins. It states what the control does — add detail or
+                      take it away — and the two strokes let it rotate through
+                      45° into an X-free minus, which reads as precise rather
+                      than playful. */}
+                  <span
+                    aria-hidden="true"
+                    className="relative flex h-6 w-6 shrink-0 items-center justify-center"
+                  >
+                    <span className="absolute h-px w-4 bg-current" />
+                    <span
+                      className={cn(
+                        'absolute h-4 w-px bg-current transition-transform duration-300 ease-out',
+                        isOpen ? 'scale-y-0' : 'scale-y-100',
+                      )}
+                    />
+                  </span>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -90,7 +99,7 @@ const Services = () => {
                       transition={{ duration: 0.35, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
-                      <p className="text-brand-muted max-w-[1040px] px-4 py-6 text-[15px] leading-relaxed md:px-6">
+                      <p className="prose-body max-w-[1040px] px-4 pt-1 pb-8 md:px-6">
                         {service.description}
                       </p>
                     </motion.div>
